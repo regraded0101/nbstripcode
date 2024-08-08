@@ -9,17 +9,12 @@ parser = argparse.ArgumentParser(
 parser.add_argument("notebook_filepath", type=str, help="Location of notebook to 'clean'")
 args = vars(parser.parse_args())
 
-
 path = args["notebook_filepath"]
 match = re.match(r"^(.*[\\/])", path)
 notebook_dir = match.group(1) if match else ""
 
 with open(args["notebook_filepath"], mode="r", encoding="utf-8") as f:
     notebook = json.loads(f.read())
-
-metadata = notebook.get("metadata")
-nbformat = notebook.get("nbformat")
-nbformat_minor = notebook.get("nbformat_minor")
 
 modified_cells = []
 cells = notebook.get("cells")
@@ -38,11 +33,10 @@ for cell in cells:
 
 modified_notebook = {
     "cells": modified_cells,
-    "metadata": metadata,
-    "nbformat": nbformat,
-    "nbformat_minor": nbformat_minor
+    "metadata": notebook.get("metadata"),
+    "nbformat": notebook.get("nbformat"),
+    "nbformat_minor": notebook.get("nbformat_minor")
 }
 
-print(notebook_dir)
 with open(f"{notebook_dir}modified_notebook.ipynb", "w") as file:
     file.write(json.dumps(modified_notebook))
