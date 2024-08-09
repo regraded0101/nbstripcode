@@ -11,6 +11,6 @@ setup(
         ]
     },
     python_requires=">=3.11",
-    author_name="regraded0101"
+    author="regraded0101"
 )
 
